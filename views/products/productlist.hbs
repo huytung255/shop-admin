@@ -42,11 +42,11 @@
                             <td>Món ăn</td>
                             <td>{{basePrice}}</td>
                             <td>
-                                <a href="../products/foods.{{_id}}">
+                                <a href="#">
                                     <i class="fas fa-edit text-success"></i>
                                 </a>
-                                <a href="#">
-                                    <i class="fas fa-trash text-danger"></i>
+                                <a >
+                                    <i class="fas fa-trash text-danger" onclick="delete_product(&quot;{{title}}&quot;,'foods')"></i>
                                 </a>
                             </td>
                         </tr>
@@ -59,11 +59,11 @@
                             <td>Nước uống</td>
                             <td>{{basePrice}}</td>
                             <td>
-                                <a href="../products/drinks.{{_id}}">
+                                <a href="#">
                                     <i class="fas fa-edit text-success"></i>
                                 </a>
-                                <a href="#">
-                                    <i class="fas fa-trash text-danger"></i>
+                                <a >
+                                    <i class="fas fa-trash text-danger" onclick="delete_product(&quot;{{title}}&quot;, 'drinks')"></i>
                                 </a>
                             </td>
                         </tr>
@@ -75,11 +75,11 @@
                             <td>Tráng miệng</td>
                             <td>{{basePrice}}</td>
                             <td>
-                                <a href="../products/desserts.{{_id}}">
+                                <a href="#">
                                     <i class="fas fa-edit text-success"></i>
                                 </a>
-                                <a href="#">
-                                    <i class="fas fa-trash text-danger"></i>
+                                <a>
+                                    <i class="fas fa-trash text-danger" onclick="delete_product(&quot;{{title}}&quot;, 'desserts')"></i>
                                 </a>
                             </td>
                         </tr>
@@ -92,3 +92,25 @@
         </div>
     </div>
 </div>
+<script>
+    function delete_product(title, type)
+    {
+        const form=document.createElement("form");
+        form.method="post";
+        form.action="./delete";
+
+        const inputTitle=document.createElement("input");
+        inputTitle.name="title";
+        inputTitle.value=title;
+        form.appendChild(inputTitle);
+
+        const inputType=document.createElement("input");
+        inputType.name="type";
+        inputType.value= type;
+        form.appendChild(inputType);
+
+        document.body.appendChild(form);
+
+        form.submit();        
+    }
+</script>
