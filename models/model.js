@@ -64,6 +64,25 @@ exports.dessert = async(productId)=>{
     return dessert;
 }
 
+exports.deleteOnebyType = async(querytitle, type)=>{
+    let collection;
+    if(type=='foods')
+    {
+        collection = await db().collection('foods');
+    }
+    else if(type == 'drinks')
+    {
+        collection = await db().collection('drinks');
+    }
+    else if(type == 'desserts')
+    {
+        collection = await db().collection('desserts');
+    }
+    const query = { title: querytitle};
+    const result = await collection.deleteOne(query);
+    return result.deletedCount;
+}
+
 
 //What is betweeen modules.exports and exports.abc and exports
 //Imports and require
