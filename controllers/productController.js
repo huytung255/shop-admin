@@ -74,4 +74,19 @@ exports.detail = async(req, res, next)=>{
 
 }
 
+exports.delete = async (req, res, next)=>{
+    const query = req.body.title;
+    const type = req.body.type;
+    const result = await productModel.deleteOnebyType(query, type);
+    if (result === 1) {
+    console.dir("Successfully deleted one document.");
+
+    let drinks = await productModel.drinks();
+    let foods = await productModel.foods();
+    let desserts= await productModel.desserts();
+    res.render('products/productlist', {foods, drinks, desserts}); 
+    } else {
+            console.log("No documents matched the query. Deleted 0 documents.");
+            }       
+}
 
