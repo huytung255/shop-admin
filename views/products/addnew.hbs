@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <h1 class="mt-4">Thêm món</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Thêm món</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-plus mr-1"></i>
+            Thêm món
+        </div>
+        <div class="card-body">
+            <form action="../products" method="POST">
+                <div class="form-group">
+                    <label for="title">Tên món</label>
+                    <input type="text" class="form-control" id="title" name="title">
+                </div>
+                <div class="form-group">
+                    <label for="cover">Hình ảnh</label>
+                    <input type="text" class="form-control" id="cover" name="cover">
+                </div>
+                <div class="form-group">
+                    <label for="category">Phân loại</label>
+                    <select class="form-control" id="category" name="category">
+                        <option>Foods</option>
+                        <option>Drinks</option>
+                        <option>Desserts</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="basePrice">Giá</label>
+                    <input type="number" class="form-control" id="basePrice" name="basePrice">
+                </div>
+                <div class="form-group">
+                    <label for="description">Mô tả</label>
+                    <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
