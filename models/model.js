@@ -40,25 +40,27 @@ exports.desserts = async()=>{
 }
 
 //Exports a food by id
-exports.food = async(productName)=>{
+exports.food = async(productId)=>{
     console.log('Food detail');
+    console.log(productId);
     const foodsCollection = await db().collection('foods');
-    const food = await foodsCollection.findOne({title: productName});
+    const food = await foodsCollection.findOne({_id: ObjectId(productId)});
+    console.log(food);
     return food;
 }
 
 //exports a drink by id
-exports.drink= async(productName)=>{
-    console.log('Food detail');
+exports.drink= async(productId)=>{
+    console.log('Drink detail');
     const drinksCollection = await db().collection('drinks');
-    const drink = await drinksCollection.findOne({title: productName});
+    const drink = await drinksCollection.findOne({_id: ObjectId(productId)});
     return drink;
 }
 //exports a dessert by id
-exports.dessert = async(productName)=>{
-    console.log('Food detail');
+exports.dessert = async(productId)=>{
+    console.log('Dessert detail');
     const dessertsCollection = await db().collection('desserts');
-    const dessert = await dessertsCollection.findOne({title: productName});
+    const dessert = await dessertsCollection.findOne({_id: ObjectId(productId)});
     return dessert;
 }
 

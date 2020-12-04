@@ -6,6 +6,8 @@ router.use(express.static('public'));
 
 router.get('/',productController.productlist);
 router.get('/addnew',productController.addnew);
-router.post('/',productController.create);
+router.post('/addnew/create',productController.create);
+router.post('/detail/edit.:id',productController.edit);
+router.get('/:type.:id',productController.detail);
 
 module.exports = router;

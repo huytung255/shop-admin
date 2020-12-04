@@ -32,34 +32,44 @@ exports.create = async (req, res, next)=>{
             console.log("1 document inserted");
         });
     }
-    var drinks = await productModel.drinks();
-    var foods = await productModel.foods();
-    var desserts= await productModel.desserts();
-    res.render('products/productlist', {foods, drinks, desserts});
+    res.redirect('/products');
 }
-
+exports.edit= async(req, res, next)=>{
+    const {db} = require('../dal/db');
+    const { ObjectId} = require('mongodb');
+    var myquery = { _id: ObjectId(req.params.id) };
+    var updateData= {$set: { title: req.body.title, cover: req.body.cover, basePrice: req.body.basePrice, description: req.body.description, review: "" }};
+    console.log(updateData);
+    if (req.body.category == "Foods"){
+        db().collection('foods').updateOne(myquery,updateData, { upsert: true });
+    }
+    if (req.body.category == "Drinks"){
+        db().collection('drinks').updateOne(myquery,updateData, { upsert: true });
+    }
+    if (req.body.category == "Desserts"){
+        db().collection('desserts').updateOne(myquery,updateData, { upsert: true });
+    }
+    res.redirect('/products');
+}
 exports.detail = async(req, res, next)=>{
     let type = req.params.type;
-    let productName = req.params.product;
+    let productId = req.params.id;
 
-    const drinks = await productModel.drinks();
-    const foods = await productModel.foods();
-    const desserts= await productModel.desserts();
     //Pass data to view to display list of product
 
     if(type =="foods"){
-        const product = await productModel.food(productName);
-        res.render('product/detailFood', {product,foods, desserts});
+        const product = await productModel.food(productId);
+        res.render('products/detail', {product,type});
     }
     //drinks
     if(type =="drinks"){
-        const product = await productModel.drink(productName);
-        res.render('product/detailDrink', {product,drinks, desserts});
+        const product = await productModel.drink(productId);
+        res.render('products/detail', {product,type});
     }
     //dessert
     if(type =="desserts"){
-        const product = await productModel.dessert(productName);
-        res.render('product/detailDessert', {product,foods, desserts});
+        const product = await productModel.dessert(productId);
+        res.render('products/detail', {product,type});
     }
 
 }
