@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 
-const uri = "mongodb+srv://dbUser:dbUserPasswork@cluster0.sluz9.mongodb.net/test?retryWrites=true&w=majority"
+const uri = process.env.URL;
 
 // Create a new MongoClient
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });

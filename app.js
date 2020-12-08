@@ -1,3 +1,4 @@
+require('dotenv').config()
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -46,8 +47,8 @@ hbs.handlebars.registerHelper('paginateHelper', paginateHelper.createPagination)
 //   return JSON.stringify(context);
 // });
 
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => console.log(`Server ${PORT}`));
+// app.listen(PORT, () => console.log(`Server ${PORT}`));
 
 module.exports = app;
