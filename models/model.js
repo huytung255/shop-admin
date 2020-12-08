@@ -1,15 +1,6 @@
 //connect with database
 const {db} = require('../dal/db');
 const { ObjectId} = require('mongodb');
-// //Exports all 
-// exports.list = async () => {
-//     console.log('model db');
-//     const booksCollection = await db().collection('foods');
-//     const books = await booksCollection.find({}).toArray();
-//     console.dir(books);
-    
-//     return books[0];
-// }
 
 //exports foods
 exports.foods = async () => {
@@ -64,25 +55,63 @@ exports.dessert = async(productId)=>{
     return dessert;
 }
 
-exports.deleteOnebyType = async(querytitle, type)=>{
+exports.deleteOne = async(querytitle)=>{
     let collection;
-    if(type=='foods')
-    {
-        collection = await db().collection('foods');
-    }
-    else if(type == 'drinks')
-    {
-        collection = await db().collection('drinks');
-    }
-    else if(type == 'desserts')
-    {
-        collection = await db().collection('desserts');
-    }
+    collection = await db().collection('products');
     const query = { title: querytitle};
     const result = await collection.deleteOne(query);
     return result.deletedCount;
 }
+//Export all products & pagination
+exports.products = async(page) => {
+    const productsCollection = await db().collection('products');
+    var products = await productsCollection.find().limit(10).skip(10 * (page - 1)).toArray();
+   return products;
+}
+//Export 1 product by id
+exports.product = async(productId) => {
+    const productsCollection = await db().collection('products');
+    const product = await productsCollection.findOne({_id: ObjectId(productId)});
+    return product;
+}
+exports.create = async(req) => {
+    var inputData= { title: req.body.title, category: req.body.category, cover: req.body.cover, basePrice: parseInt(req.body.basePrice), description: req.body.description, review: "" };
+    db().collection('products').insertOne(inputData, function(err,res){
+        if (err) throw err;
+        console.log("1 document inserted");
+    });
+}
 
+exports.edit = async(req) => {
+    var myquery = { _id: ObjectId(req.params.id) };
+    var updateData= {$set: { title: req.body.title, category: req.body.category, cover: req.body.cover, basePrice: parseInt(req.body.basePrice), description: req.body.description, review: "" }};
+    db().collection('products').updateOne(myquery,updateData, { upsert: true });
+}
 
+exports.count = async() => {
+    let collection;
+    collection = await db().collection('products');
+    count = await collection.countDocuments({});
+    return count;
+}
+exports.countByCategory = async(category) => {
+    collection = await db().collection('products');
+    // count = await collection.countDocuments({ $where: {"category" : category}});
+    products_by_category = await collection.find({"category" : category}).toArray();
+    count = products_by_category.length;
+    return count;
+}
+
+exports.search = async(title) => {
+    const productsCollection = await db().collection('products');
+    var products = await productsCollection.find({"title" : title}).toArray();
+    console.log(products);
+   return products;
+} 
+exports.category = async(page,category) => {
+    const productsCollection = await db().collection('products');
+    var products = await productsCollection.find({"category" : category}).limit(10).skip(10 * (page - 1)).toArray();
+   return products;
+} 
 //What is betweeen modules.exports and exports.abc and exports
 //Imports and require

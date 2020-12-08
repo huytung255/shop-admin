@@ -1,7 +1,7 @@
 <div class="container-fluid">
-    <h1 class="mt-4">Sản phẩm</h1>
+    <h1 class="mt-4">Tìm kiếm sản phẩm</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Sản phẩm</li>
+        <li class="breadcrumb-item active">Tìm kiếm sản phẩm</li>
     </ol>
     <div class="card mb-4">
         <div class="card-header">
@@ -19,15 +19,6 @@
                     name="searchedproduct">
                 <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit">Search</button>
             </form>
-            <div class="dropdown">
-                <button class="btn btn-primary aqua-gradient dropdown-toggle" type="button" data-toggle="dropdown">Find by category
-                    <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="/products/category?category=foods&page=1">foods</a></li>
-                    <li><a href="/products/category?category=drinks&page=1">drinks</a></li>
-                    <li><a href="/products/category?category=desserts&page=1">desserts</a></li>
-                </ul>
-            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -50,7 +41,7 @@
                     </tfoot>
                     <tbody>
 
-                        {{#each products}}
+                        {{#each searchedproduct}}
                         <tr>
                             <td>{{title}}</td>
                             <td>{{category}}</td>

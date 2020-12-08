@@ -7,7 +7,7 @@ const hbs = require('hbs');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
-
+var paginateHelper = require('express-handlebars-paginate');
 var app = express();
 require('./dal/db');
 
@@ -40,7 +40,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-
+hbs.handlebars.registerHelper('paginateHelper', paginateHelper.createPagination);
 
 // hbs.registerHelper('json', function(context) {
 //   return JSON.stringify(context);
