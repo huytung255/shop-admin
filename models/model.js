@@ -94,18 +94,22 @@ exports.count = async() => {
     count = await collection.countDocuments({});
     return count;
 }
+exports.countByTitle = async(title) => {
+    collection = await db().collection('products');
+    products_by_title = await collection.find({"title" : title}).toArray();
+    count = products_by_title.length;
+    return count;
+}
 exports.countByCategory = async(category) => {
     collection = await db().collection('products');
-    // count = await collection.countDocuments({ $where: {"category" : category}});
     products_by_category = await collection.find({"category" : category}).toArray();
     count = products_by_category.length;
     return count;
 }
 
-exports.search = async(title) => {
+exports.search = async(page,title) => {
     const productsCollection = await db().collection('products');
-    var products = await productsCollection.find({"title" : title}).toArray();
-    console.log(products);
+    var products = await productsCollection.find({"title" : title}).limit(10).skip(10 * (page - 1)).toArray();
    return products;
 } 
 exports.category = async(page,category) => {

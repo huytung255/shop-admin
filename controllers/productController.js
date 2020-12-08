@@ -40,9 +40,13 @@ exports.delete = async (req, res, next)=>{
 }
 
 exports.search = async (req, res, next)=>{
+
+    const page = +req.query.page || 1;
     const title = req.query.searchedproduct;
-    const searchedproduct = await productModel.search(title);
-    res.render('products/search', {searchedproduct});
+    const searchedproduct = await productModel.search(page,title);
+    const count = await productModel.countByTitle(title);
+    console.log(count);
+    res.render('products/search', {pagination: { page: parseInt(page), limit:10, totalRows: count, queryParams: {searchedproduct: title}}, searchedproduct});
 }
 
 exports.searchByCategory = async (req, res, next)=>{
