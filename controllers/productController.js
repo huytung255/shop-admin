@@ -1,5 +1,13 @@
 const productModel = require('../models/model');
+const formidable = require('formidable');
+const cloudinary = require('cloudinary').v2;
 //import list from '../model/productModel';
+
+cloudinary.config({ 
+    cloud_name: process.env.CLOUDNAME, 
+    api_key: process.env.CLOUDKEY, 
+    api_secret: process.env.CLOUDSECRET 
+  });
 
 exports.productlist = async (req, res, next)=>{
     const page = +req.query.page || 1;
@@ -12,7 +20,28 @@ exports.addnew = async (req, res, next)=>{
     res.render('products/addnew',{});
 }
 exports.create = async (req, res, next)=>{
-    productModel.create(req);
+    const form = formidable({multiples:true});
+    form.parse(req, (err, fields, files)=>{
+        if(err){
+            console.log(err);
+            next(err);
+            return;
+        }
+        const coverimage=files.coverimage;
+        if(coverimage && coverimage.size > 0)
+        {
+            cloudinary.uploader.upload(coverimage.path,{folder: "fast-shop/"+fields.category}, 
+            function (error, result) {
+                    if(error){
+                        next(error)
+                        return;
+                    }
+                    fields.cover = result.secure_url;
+                    productModel.create(fields);
+            });
+        }
+    })
+    //productModel.create(req);
     res.redirect('/products?page=1');
 }
 exports.edit= async(req, res, next)=>{
