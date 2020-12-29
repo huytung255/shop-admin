@@ -9,7 +9,7 @@
             Thêm món
         </div>
         <div class="card-body">
-            <form action="../products/addnew/create" method="POST">
+            <form action="../products/addnew/create" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="title">Tên món</label>
                     <input type="text" class="form-control" id="title" name="title">
@@ -33,6 +33,10 @@
                 <div class="form-group">
                     <label for="description">Mô tả</label>
                     <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="coverimage">Ảnh đại diện</label>
+                    <input type="file" class="form-control" id="coverimage" name="coverimage">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
