@@ -28,26 +28,15 @@ exports.create = async (req, res, next)=>{
             return;
         }
         const coverimage=files.coverimage;
-        //const path='C:\\Users\\nguye';
-        //console.log("fields: ", fields);
-        //console.log("\nfiles: ", files);
         if(coverimage && coverimage.size > 0)
         {
-            //const filename = coverimage.path.split('\\').pop() + '.' + coverimage.name.split('.').pop();
-            //console.log(filename);
-            //fs.renameSync(coverimage.path, path + '\\' + filename);
-            //fields.cover = '/images/book/' + filename;
-            //console.log("Link hinh: ", fields.cover);
-            console.log("Cho luu hinh: ", coverimage.path);
             cloudinary.uploader.upload(coverimage.path,{folder: "fast-shop/"+fields.category}, 
             function (error, result) {
                     if(error){
                         next(error)
                         return;
                     }
-                    //console.log(result, error);
                     fields.cover = result.secure_url;
-                    //console.log(fields);
                     productModel.create(fields);
             });
         }
