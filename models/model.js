@@ -75,7 +75,8 @@ exports.product = async(productId) => {
     return product;
 }
 exports.create = async(req) => {
-    var inputData= { title: req.title, category: req.category, cover: req.cover, basePrice: parseInt(req.basePrice), description: req.description, review: "" };
+    var inputData= { title: req.title, category: req.category, cover: req.cover, basePrice: parseInt(req.basePrice), description: req.description, review: "", images: [req.url0, req.url1, req.url2]};
+    console.log("Document them vao: ", inputData);
     db().collection('products').insertOne(inputData, function(err,res){
         if (err) throw err;
         console.log("1 document inserted");

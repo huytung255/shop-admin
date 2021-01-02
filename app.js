@@ -5,9 +5,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const hbs = require('hbs');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var productsRouter = require('./routes/products');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/customer');
+const productsRouter = require('./routes/products');
+const staffsRouter = require('./routes/staff')
+const adminRouter = require('./routes/admin');
 var paginateHelper = require('express-handlebars-paginate');
 var app = express();
 require('./dal/db');
@@ -23,8 +25,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/customer', usersRouter);
 app.use('/products',productsRouter);
+app.use('/staff', staffsRouter);
+app.use('/admin', adminRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

@@ -1,0 +1,81 @@
+<div class="container-fluid">
+    <h1 class="mt-4">Customer Information</h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-plus mr-1"></i>
+            Information
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" value={{customer._id}} readonly>   
+                </div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control"  name="name" value='{{customer.CUS_NAME}}' readonly>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" value={{customer.CUS_EMAIL}} readonly>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="PHONE" class="form-control" name="phone" value='{{customer.CUS_PHONE}}' readonly>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea class="form-control" rows="2" name="address" readonly>{{customer.CUS_ADDRESS}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="islock">Is locked</label>
+                    <textarea id="is_locked" class="form-control" rows="1" name="islock" readonly>{{customer.IS_LOCK}}</textarea>
+                </div>
+            </form>
+            <a href="/customer">
+                <button class="btn btn-primary float-left">Back</button>
+            </a>
+            <button id="btnlock" class="btn btn-danger float-right" onclick="lock_user('{{customer._id}}')">Lock user</button>
+            <button id="btnunlock" class="btn btn-primary float-right" onclick="unlock_user('{{customer._id}}')">Unlock user</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function lock_user(id) {
+        const form = document.createElement("form");
+        form.method = "post";
+        form.action = "/customer/lock/" + id;
+        //{{!-- const inputid = document.createElement("input");
+        //inputid.name = "id";
+        //inputid.value = id;
+        //form.appendChild(inputid); --}}
+
+        document.body.appendChild(form);
+
+        form.submit();
+    }
+    function unlock_user(id) {
+        const form = document.createElement("form");
+        form.method = "post";
+        form.action = "/customer/unlock/" + id;
+        //console.log(form.action);
+        //const inputid = document.createElement("input");
+        //inputid.name = "id";
+        //inputid.value = id;
+        //form.appendChild(inputid);
+
+        document.body.appendChild(form);
+
+        form.submit();
+    }
+    const btnlock = document.getElementById("btnlock");
+    const btnunlock = document.getElementById("btnunlock");
+    const islocked = document.getElementById("is_locked");
+    if(islocked.value == "true"){
+        btnlock.disabled = true;
+    }
+    else{
+        btnunlock.disabled = true;
+    }
+</script>

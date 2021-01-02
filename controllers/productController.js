@@ -19,6 +19,7 @@ exports.productlist = async (req, res, next)=>{
 exports.addnew = async (req, res, next)=>{
     res.render('products/addnew',{});
 }
+
 exports.create = async (req, res, next)=>{
     const form = formidable({multiples:true});
     form.parse(req, (err, fields, files)=>{
@@ -27,32 +28,34 @@ exports.create = async (req, res, next)=>{
             next(err);
             return;
         }
-        const coverimage=files.coverimage;
+        //const coverimage=files.coverimage;
         //const path='C:\\Users\\nguye';
         //console.log("fields: ", fields);
         //console.log("\nfiles: ", files);
-        if(coverimage && coverimage.size > 0)
-        {
-            //const filename = coverimage.path.split('\\').pop() + '.' + coverimage.name.split('.').pop();
-            //console.log(filename);
-            //fs.renameSync(coverimage.path, path + '\\' + filename);
-            //fields.cover = '/images/book/' + filename;
-            //console.log("Link hinh: ", fields.cover);
-            console.log("Cho luu hinh: ", coverimage.path);
-            cloudinary.uploader.upload(coverimage.path,{folder: "fast-shop/"+fields.category}, 
-            function (error, result) {
-                    if(error){
-                        next(error)
-                        return;
-                    }
-                    //console.log(result, error);
-                    fields.cover = result.secure_url;
-                    //console.log(fields);
-                    productModel.create(fields);
-            });
-        }
+        // if(coverimage && coverimage.size > 0)
+        // {
+        //     //const filename = coverimage.path.split('\\').pop() + '.' + coverimage.name.split('.').pop();
+        //     //console.log(filename);
+        //     //fs.renameSync(coverimage.path, path + '\\' + filename);
+        //     //fields.cover = '/images/book/' + filename;
+        //     //console.log("Link hinh: ", fields.cover);
+        //     console.log("Cho luu hinh: ", coverimage.path);
+        //     cloudinary.uploader.upload(coverimage.path,{folder: "fast-shop/"+fields.category}, 
+        //     function (error, result) {
+        //             if(error){
+        //                 next(error)
+        //                 return;
+        //             }
+        //             //console.log(result, error);
+        //             fields.cover = result.secure_url;
+        //             //console.log(fields);
+        //             productModel.create(fields);
+        //     });
+        // }
+        console.log("Thong tin trong fields: ", fields);
+        productModel.create(fields);
     })
-    res.redirect('/products?page=1');
+   //res.redirect('/products?page=1');
 }
 exports.edit= async(req, res, next)=>{
     productModel.edit(req)
