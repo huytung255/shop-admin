@@ -7,7 +7,7 @@ exports.staffs = async(page) => {
     const staffs = await staffsCollection.find().limit(10).skip(10 * (page - 1)).toArray();
    return staffs;
 }
-//Export 1 product by id
+//Export 1 staff by id
 exports.staff = async(staffId) => {
     const staffsCollection = await db().collection('STAFF');
     const staff = await staffsCollection.findOne({_id: ObjectId(staffId)});

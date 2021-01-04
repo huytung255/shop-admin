@@ -7,7 +7,7 @@ exports.customers = async(page) => {
     const customers = await usersCollection.find().limit(10).skip(10 * (page - 1)).toArray();
    return customers;
 }
-//Export 1 product by id
+//Export 1 customer by id
 exports.customer = async(customerId) => {
     const customersCollection = await db().collection('CUSTOMER');
     const customer = await customersCollection.findOne({_id: ObjectId(customerId)});

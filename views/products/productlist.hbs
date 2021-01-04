@@ -8,60 +8,76 @@
             <i class="fas fa-table mr-1"></i>
             Product Table
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center my-2">
             <a href="../products/addnew">
-                <button type="button" class="btn aqua-gradient btn-primary"><i class="fas fa-plus"></i>Add new</button>
+                <button type="button" class="btn aqua-gradient btn-primary px-5 py-3 border-0 text-uppercase"><i
+                        class="fas fa-plus mr-2"></i>Add new</button>
             </a>
         </div>
-        <div class="d-flex ">
-            <form action="../products/search?page=1" method="GET" class="form-inline md-form mr-auto mb-4">
+        <div class="d-flex justify-content-between mx-4">
+            <form action="../products/search?page=1" method="GET" class="form-inline md-form">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
                     name="searchedproduct">
-                <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit">Search</button>
+                <button class="btn aqua-gradient btn-primary border-0 text-uppercase" type="submit"><i
+                        class="fa fa-search" aria-hidden="true"></i></button>
             </form>
-            <div class="dropdown">
-                <button class="btn btn-primary aqua-gradient dropdown-toggle" type="button" data-toggle="dropdown">Find by category
-                    <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="/products/category?category=foods&page=1">foods</a></li>
-                    <li><a href="/products/category?category=drinks&page=1">drinks</a></li>
-                    <li><a href="/products/category?category=desserts&page=1">desserts</a></li>
+            <div class="dropdown my-auto">
+                <button class="btn aqua-gradient btn-primary px-5 py-2 border-0 text-uppercasedropdown-toggle"
+                    type="button" data-toggle="dropdown">Find by type
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="/products/type?type=pizza&page=1">pizza</a></li>
+                    <li><a class="dropdown-item" href="/products/type?type=burger&page=1">burger</a></li>
+                    <li><a class="dropdown-item" href="/products/type?type=spaghetti&page=1">spaghetti</a></li>
+                    <li><a class="dropdown-item" href="/products/type?type=dessert&page=1">dessert</a></li>
+                    <li><a class="dropdown-item" href="/products/type?type=drink&page=1">drink</a></li>
                 </ul>
             </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered"  width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Tên</th>
-                            <th>Loại</th>
-                            <th>Giá</th>
-                            <th>Chỉnh sửa</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Hình ảnh </th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Tên</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Loại</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Giá</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Trạng thái</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Chỉnh sửa</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>Tên</th>
-                            <th>Loại</th>
-                            <th>Giá</th>
-                            <th>Chỉnh sửa</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Hình ảnh </th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Tên</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Loại</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Giá</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Trạng thái</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Chỉnh sửa</th>
                         </tr>
                     </tfoot>
                     <tbody>
 
                         {{#each products}}
                         <tr>
-                            <td>{{title}}</td>
-                            <td>{{category}}</td>
-                            <td>{{basePrice}}</td>
-                            <td>
-                                <a href="../products/detail.{{_id}}">
+                            <td class="d-flex justify-content-center"> <img src="{{IMAGES.[0]}}" alt="" width="100"
+                                    height="100"> </td>
+                            <td class="text-center align-middle">{{DISH_NAME}}</td>
+                            <td class="text-center align-middle">{{TYPE}}</td>
+                            <td class="text-center align-middle">{{PRICE}}</td>
+                            <td class="text-center align-middle">
+                                {{#if STATUS}}
+                                <span class="text-success font-weight-bold">Còn</span>
+                                {{/if}}
+                                {{#unless STATUS}}
+                                <span class="text-danger font-weight-bold">Hết</span>
+                                {{/unless}}
+                            </td>
+                            <td class="text-center align-middle">
+                                <a href="../products/detail?id={{_id}}">
                                     <i class="fas fa-edit text-success"></i>
-                                </a>
-                                <a>
-                                    <i class="fas fa-trash text-danger"
-                                        onclick="delete_product(&quot;{{title}}&quot;,'foods')"></i>
                                 </a>
                             </td>
                         </tr>
@@ -73,7 +89,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            {{{paginateHelper pagination}}}
+            {{{paginateHelper pagination paginationClass="pagination"}}}
         </div>
 
     </div>

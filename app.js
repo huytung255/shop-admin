@@ -10,6 +10,7 @@ const usersRouter = require('./routes/customer');
 const productsRouter = require('./routes/products');
 const staffsRouter = require('./routes/staff')
 const adminRouter = require('./routes/admin');
+const orderRouter = require('./routes/order');
 var paginateHelper = require('express-handlebars-paginate');
 var app = express();
 require('./dal/db');
@@ -29,6 +30,7 @@ app.use('/customer', usersRouter);
 app.use('/products',productsRouter);
 app.use('/staff', staffsRouter);
 app.use('/admin', adminRouter);
+app.use('/order',orderRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -46,7 +48,11 @@ app.use(function(err, req, res, next) {
 });
 
 hbs.handlebars.registerHelper('paginateHelper', paginateHelper.createPagination);
-
+hbs.handlebars.registerHelper('cond', function(v1, v2, options) {
+  if(v1 === v2) {
+    return options.fn(this);
+  }
+});
 // hbs.registerHelper('json', function(context) {
 //   return JSON.stringify(context);
 // });

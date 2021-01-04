@@ -11,7 +11,7 @@ async function connectDb(){
     try {
         console.log('Start connect');
         await client.connect();
-        database = await client.db("Shopping_cart");
+        database = await client.db("test");
         console.log('Db connected!');
     } catch (e) {
         console.error(e);

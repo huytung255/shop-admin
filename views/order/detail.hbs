@@ -1,0 +1,125 @@
+<div class="container-fluid">
+    <h1 class="mt-4">Chi tiết đơn</h1>
+    <ol class="breadcrumb mb-3">
+        <li class="breadcrumb-item active">Chi tiết đơn</li>
+    </ol>
+    <button onclick="goBack()" type="button"
+        class="btn red-gradient btn-primary px-5 py-3 mb-3 border-0 text-uppercase font-weight-bold"><i
+            class="fa fa-chevron-left" aria-hidden="true"></i>
+        Back</button>
+    <div class="card mb-4">
+        <div class="card-header">
+            Order detail
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label>Mã đơn</label>
+                <input type="text" class="form-control" value='{{order.order._id}}' readonly>
+            </div>
+            <div class="form-group">
+                <label>Trạng thái</label>
+
+                {{#cond order.order.STATUS 0}}
+                <input type="text" class="form-control text-secondary" value='PENDING' readonly>
+                {{/cond}}
+
+                {{#cond order.order.STATUS 1}}
+                <input type="text" class="form-control text-success" value='CONFIRMED' readonly>
+                {{/cond}}
+
+                {{#cond order.order.STATUS -1}}
+                <input type="text" class="form-control text-danger" value='CANCELED' readonly>
+                {{/cond}}
+            </div>
+            <div class="form-group">
+                <label>Ngày tạo</label>
+                <input type="text" class="form-control" value='{{order.order.DATECREATED}}' readonly>
+            </div>
+            <div class="form-group">
+                <label>Nhân viên</label>
+                <input type="text" class="form-control" value='{{order.staff}}' readonly>
+            </div>
+            <div class="table-responsive">
+                <label>Các món đã đặt</label>
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Hình ảnh </th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Tên</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Loại</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Đơn Giá</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Số lượng</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Hình ảnh </th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Tên</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Loại</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Đơn Giá</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Số lượng</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Thành tiền</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+
+                        {{#each order.items}}
+                        <tr>
+                            <td class="d-flex justify-content-center"> <img src="{{this.item.IMAGES.[0]}}" alt=""
+                                    width="70" height="70"> </td>
+                            <td class="text-center align-middle">{{this.item.DISH_NAME}}</td>
+                            <td class="text-center align-middle">{{this.item.TYPE}}</td>
+                            <td class="text-center align-middle">{{this.item.PRICE}}</td>
+                            <td class="text-center align-middle">{{this.itemDetail.QUANTITY}}</td>
+                            <td class="text-center align-middle">{{this.itemDetail.SUBTOTAL}}</td>
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+                <label class="font-weight-bold ">Tổng tiền: {{order.order.TOTAL}}</label>
+            </div>
+            <div class="row mt-2">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Tên người đặt</label>
+                        <input type="text" class="form-control" value='{{order.creator.CUS_NAME}}' readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại người đặt</label>
+                        <input type="text" class="form-control" value='{{order.creator.CUS_PHONE}}' readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ người đặt</label>
+                        <input type="text" class="form-control" value='{{order.creator.CUS_ADDRESS}}' readonly>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Tên người nhận</label>
+                        <input type="text" class="form-control" value='{{order.order.NAME}}' readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại người nhận</label>
+                        <input type="text" class="form-control" value='{{order.order.PHONE}}' readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ người nhận</label>
+                        <input type="text" class="form-control" value='{{order.order.ADDRESS}}' readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Thời gian giao</label>
+                <input type="text" class="form-control" value='{{order.order.TIME}}' readonly>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>

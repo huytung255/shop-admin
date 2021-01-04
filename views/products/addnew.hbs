@@ -11,90 +11,77 @@
         <div class="card-body">
             <form id="addproductform" action="../products/addnew/create" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="title">Tên món</label>
-                    <input type="text" class="form-control" id="title" name="title">
+                    <label for="name">Tên món</label>
+                    <input type="text" class="form-control" id="name" name="name">
                 </div>
                 <div class="form-group">
-                    <label for="cover">Hình ảnh</label>
-                    <input type="text" class="form-control" id="cover" name="cover">
-                </div>
-                <div class="form-group">
-                    <label for="category">Phân loại</label>
-                    <select class="form-control" id="category" name="category">
-                        <option>foods</option>
-                        <option>drinks</option>
-                        <option>desserts</option>
+                    <label for="type">Phân loại</label>
+                    <select class="form-control" id="type" name="type">
+                        <option>pizza</option>
+                        <option>burger</option>
+                        <option>spaghetti</option>
+                        <option>dessert</option>
+                        <option>drink</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="basePrice">Giá</label>
-                    <input type="number" class="form-control" id="basePrice" name="basePrice">
+                    <label for="price">Giá</label>
+                    <input type="number" class="form-control" onkeypress="return isNumberKey(event)" id="price" name="price" min="0">
                 </div>
                 <div class="form-group">
                     <label for="description">Mô tả</label>
                     <textarea class="form-control" id="description" rows="3" name="description"></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="coverimage">Ảnh đại diện</label>
-                    <input type="file" class="form-control" id="coverimage" name="coverimage">
-                </div>
-                <div class="form-group">
-                    <label for="multiplefile">Multiple</label>
-                    <button id="upload_widget" class="cloudinary-button" type="button" name="multiplefile">Upload files</button>        
+
+                <div class="form-group d-flex flex-column">
+                    <label for="multiplefile">Update images:</label>
+                    <div>
+                        <button id="upload_widget" class="cloudinary-button " type="button"
+                            name="multiplefile"></button>
+                    </div>
                 </div>
             </form>
-            <button type="button" class="btn btn-primary" onclick="submit()">Submit</button>
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn aqua-gradient btn-primary px-5 py-3 border-0 text-uppercase"
+                    onclick="submit()">Submit</button>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
-<script type="text/javascript">  
-  //  var myWidget = cloudinary.createUploadWidget({
-   // cloudName: 'davjklfpl', 
-   // uploadPreset: 's5px9gj8',
-  //  folder: 'fast-shop'}, (error, result) => { 
-  //      if (!error && result && result.event === "success") { 
-  //      console.log('Done! Here is the image info: ', result.info);
-   //         resultupload = result.info; 
-   //     }
-  //  }
-  //  )
-  let resultupload=["","",""];
-  let i=0;
-    cloudinary.applyUploadWidget(document.getElementById('upload_widget'), 
-    { cloudName: "davjklfpl", uploadPreset: "s5px9gj8", folder: 'fast-shop' }, 
-    (error, result) => {
-        if(!error && result && result.event === "success"){ 
-            console.log("ket qua: ", result.info);
-            resultupload[i]=result.info.secure_url;
-            i++;
-        }
-    });
-   // document.getElementById("upload_widget").addEventListener("click", function(){
-    //    myWidget.open();
-    //}, false);
+<script type="text/javascript">
+    let resultupload = ["", "", ""];
+    let i = 0;
+    cloudinary.applyUploadWidget(document.getElementById('upload_widget'),
+        { cloudName: "davjklfpl", uploadPreset: "s5px9gj8", folder: 'fast-shop' },
+        (error, result) => {
+            if (!error && result && result.event === "success") {
+                console.log("ket qua: ", result.info);
+                resultupload[i] = result.info.secure_url;
+                i++;
+            }
+        });
 
-    function submit(){
+
+    function submit() {
         const form = document.getElementById("addproductform");
-        //const url1 = document.createElement("input");
-        //url1.name = "url1";
-        //const url2 = document.createElement("input");
-        //url2.name = "url2";
-        //const url3 = document.createElement("input");
-        //url3.name = "url3";
-        for(i=0;i<3;i++){
+        for (i = 0; i < 3; i++) {
             const urltemp = document.createElement("input");
             urltemp.name = "url" + i;
             urltemp.value = resultupload[i];
+            urltemp.type = 'hidden';
             form.appendChild(urltemp);
             console.log("cai urltemp: ", urltemp);
         }
-
-
         form.submit();
     }
 
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
 </script>
-
-

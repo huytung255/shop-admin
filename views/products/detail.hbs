@@ -9,34 +9,113 @@
             Sửa món
         </div>
         <div class="card-body">
-            <form action="../products/detail/edit.{{product._id}}" method="POST">
+            <form id="editproductform" action="../products/detail/edit?id={{product._id}}" method="POST">
                 <div class="form-group">
                     <label for="title">Tên món</label>
-                    <input type="text" class="form-control" id="title" name="title" value={{product.title}}>
-                    
+                    <input type="text" class="form-control" id="title" name="title" value={{product.DISH_NAME}}>
+
                 </div>
-                <div class="form-group">
-                    <label for="cover">Hình ảnh</label>
-                    <input type="text" class="form-control" id="cover" name="cover" value={{product.cover}}>
-                </div>
+
                 <div class="form-group">
                     <label for="category">Phân loại</label>
-                    <select class="form-control" id="category" name="category" >
-                        <option>foods</option>
-                        <option>drinks</option>
-                        <option>desserts</option>
+                    <select class="form-control" id="category" name="category">
+                        <option {{#cond product.TYPE 'pizza' }} selected="selected" {{/cond}}>pizza</option>
+                        <option {{#cond product.TYPE 'burger' }} selected="selected" {{/cond}}>burger</option>
+                        <option {{#cond product.TYPE 'spaghetti' }} selected="selected" {{/cond}}>spaghetti</option>
+                        <option {{#cond product.TYPE 'dessert' }} selected="selected" {{/cond}}>dessert</option>
+                        <option {{#cond product.TYPE 'drink' }} selected="selected" {{/cond}}>drink</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="basePrice">Giá</label>
-                    <input type="number" class="form-control" id="basePrice" name="basePrice" value={{product.basePrice}}>
+                    <input type="number" class="form-control" id="basePrice" name="basePrice" value={{product.PRICE}}>
+                </div>
+                <div class="form-group">
+                    <label for="basePrice">Trạng thái</label>
+                    <select class="form-control" id="status" name="status">
+                        <option {{#cond product.STATUS 0}} selected="selected" {{/cond}} value='0'>Hết</option>
+                        <option {{#cond product.STATUS 1}} selected="selected" {{/cond}} value='1'>Còn</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="description">Mô tả</label>
-                    <textarea class="form-control" id="description" rows="3" name="description">{{product.description}}</textarea>
+                    <textarea class="form-control" id="description" rows="3"
+                        name="description">{{product.DESCRIPTION}}</textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group">
+                    <label for="description">Hình ảnh</label>
+                    <div class="d-flex justify-content-between w-50 border rounded">
+                        {{#each product.IMAGES}}
+                        <img src="{{this}}" width="120" height="120">
+                        {{/each}}
+                    </div>
+
+                    <div class="form-group d-flex flex-column">
+                        <label for="multiplefile">Update images:</label>
+                        <div>
+                            <button id="upload_widget" class="cloudinary-button " type="button"
+                                name="multiplefile"></button>
+                        </div>
+                    </div>
+                </div>
             </form>
+            <div class="d-flex justify-content-center">
+                <button type="button"
+                    class="btn aqua-gradient btn-primary px-5 py-3 mx-5 border-0 text-uppercase font-weight-bold"
+                    onclick="submit()">Submit</button>
+                <button type="button"
+                    class="btn red-gradient btn-primary px-5 py-3 mx-5 border-0 text-uppercase font-weight-bold"
+                    data-toggle="modal" data-target="#removeModal">Remove</button>
+                <!-- Modal -->
+                <div class="modal fade" id="removeModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Remove item</h5>
+                                <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
+                                    <span class="fa fa-times" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to remove this item?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                <a class="btn btn-primary " href="detail/remove?id={{product._id}}">Yes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
+
+<script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
+<script type="text/javascript">
+    let resultupload = ["{{product.IMAGES.[0]}}", "{{product.IMAGES.[1]}}", "{{product.IMAGES.[2]}}"];
+    let i = 0;
+    cloudinary.applyUploadWidget(document.getElementById('upload_widget'),
+        { cloudName: "davjklfpl", uploadPreset: "s5px9gj8", folder: 'fast-shop' },
+        (error, result) => {
+            if (!error && result && result.event === "success") {
+                console.log("ket qua: ", result.info);
+                resultupload[i] = result.info.secure_url;
+                i++;
+            }
+        });
+    function submit() {
+        const form = document.getElementById("editproductform");
+        for (i = 0; i < 3; i++) {
+            const urltemp = document.createElement("input");
+            urltemp.name = "url" + i;
+            urltemp.value = resultupload[i];
+            urltemp.type = 'hidden';
+            form.appendChild(urltemp);
+            console.log("cai urltemp: ", urltemp);
+        }
+        form.submit();
+    }
+</script>

@@ -10247,3 +10247,51 @@ body {
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
 }
+.aqua-gradient{background:linear-gradient(40deg, #2096ff, #05ffa3) !important}
+.red-gradient{background-image:linear-gradient(120deg, #f093fb 0%, #f5576c 100%)!important;}
+.pagination {
+  display: inline-block;
+}
+
+.pagination li {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.pagination li.active {
+  background:linear-gradient(40deg, #2096ff, #05ffa3);
+  border-radius: 5px;
+}
+
+.pagination li:hover:not(.active) {background-color: #ddd;}
+.pagination li {
+  transition: background-color .3s;
+}
+
+.pagination li a{
+  color : #2096ff;
+}
+.pagination li.active a{
+  color: white;
+}
+.pagination li.disabled{
+  pointer-events:none;
+}
+.pagination li.disabled a{
+  color: gray;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
