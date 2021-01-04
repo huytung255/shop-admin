@@ -1,7 +1,7 @@
 const adminModel = require('../models/adminModel');
 
 exports.detail = async(req, res, next)=>{
-    const admin = await adminModel.admin();
+    const admin = req.user
     console.log(admin);
     res.render('admin/admininformation', {admin});
 }

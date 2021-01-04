@@ -32,9 +32,7 @@
                     <textarea id="is_locked" class="form-control" rows="1" name="islock" readonly>{{customer.IS_LOCK}}</textarea>
                 </div>
             </form>
-            <a href="/customer">
-                <button class="btn btn-primary float-left">Back</button>
-            </a>
+            <button class="btn btn-primary float-left" onclick="goBack()">Back</button>
             <button id="btnlock" class="btn btn-danger float-right" onclick="lock_user('{{customer._id}}')">Lock user</button>
             <button id="btnunlock" class="btn btn-primary float-right" onclick="unlock_user('{{customer._id}}')">Unlock user</button>
         </div>
@@ -42,6 +40,9 @@
 </div>
 
 <script>
+    function goBack() {
+        window.history.back();
+    }
     function lock_user(id) {
         const form = document.createElement("form");
         form.method = "post";

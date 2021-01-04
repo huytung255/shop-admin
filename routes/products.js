@@ -1,17 +1,18 @@
 const express= require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
+const { checkAdminAuthenticated } = require('../passport/authcontroller');
 
 router.use(express.static('public'));
 
-router.get('/',productController.productlist);
-router.get('/addnew',productController.addnew);
-router.post('/addnew/create',productController.create);
-router.get('/detail',productController.detail);
-router.post('/detail/edit',productController.edit);
-router.get('/detail/remove',productController.remove);
+router.get('/', checkAdminAuthenticated, productController.productlist);
+router.get('/addnew', checkAdminAuthenticated, productController.addnew);
+router.post('/addnew/create', checkAdminAuthenticated, productController.create);
+router.get('/detail', checkAdminAuthenticated, productController.detail);
+router.post('/detail/edit', checkAdminAuthenticated, productController.edit);
+router.get('/detail/remove', checkAdminAuthenticated, productController.remove);
 
-router.get('/search',productController.search);
-router.get('/type',productController.searchByType);
+router.get('/search', checkAdminAuthenticated, productController.search);
+router.get('/type', checkAdminAuthenticated, productController.searchByType);
 
 module.exports = router;

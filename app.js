@@ -15,6 +15,34 @@ var paginateHelper = require('express-handlebars-paginate');
 var app = express();
 require('./dal/db');
 
+//passport, flash, session
+const passport = require('passport');
+const flash = require('connect-flash');
+const session = require('express-session');
+require('./passport/passport')(passport);
+
+// Express session
+app.use(
+  session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+  })
+);
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Connect flash
+app.use(flash());
+// Global variables
+app.use(function(req, res, next) {
+  res.message = req.flash();
+  res.locals.user = req.user;
+  console.log("res.locals day ne: ", res.locals.user);
+  next();
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');

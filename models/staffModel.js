@@ -22,7 +22,7 @@ exports.count = async() => {
 }
 
 exports.create = async(req)=>{
-    const document= { STAFF_ID: req.body.id, USERNAME: req.body.username, STAFF_NAME: req.body.name, STAFF_EMAIL: req.body.email, STAFF_ADDRESS: req.body.address, STAFF_PHONE: req.body.phone};
+    const document= {USERNAME: req.body.username, STAFF_NAME: req.body.name, STAFF_EMAIL: req.body.email, STAFF_ADDRESS: req.body.address, STAFF_PHONE: req.body.phone};
     console.log("Document them vao: ", document);
     await db().collection('STAFF').insertOne(document, function(err,res){
         if (err) throw err;
@@ -35,4 +35,23 @@ exports.deleteOne = async(queryID)=>{
     const query = { _id: ObjectId(queryID)};
     const result = await collection.deleteOne(query);
     return result.deletedCount;
+}
+
+exports.findOne = async(user)=>{
+    const ans =  await db().collection('STAFF').findOne(user);
+    return ans;
+}
+
+exports.update = async(req)=>{
+    const updateDocument = {
+        $set: {
+           USERNAME: req.body.username,
+           STAFF_NAME: req.body.name,
+           STAFF_EMAIL: req.body.email,
+           STAFF_PHONE: req.body.phone,
+           STAFF_ADDRESS: req.body.address,
+        },
+     };
+     const collection = await db().collection('STAFF');
+     const result = await collection.updateOne({}, updateDocument);
 }

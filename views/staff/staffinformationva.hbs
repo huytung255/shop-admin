@@ -6,7 +6,7 @@
             Information
         </div>
         <div class="card-body">
-            <form id="addstaffform" action="/staff/update/:{{staff._id}}" method="POST">
+            <form>
                 <div class="form-group">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" value={{staff._id}} readonly>
@@ -31,8 +31,23 @@
                     <label for="address">Address</label>
                     <textarea class="form-control" rows="2" name="address" readonly>{{staff.STAFF_ADDRESS}}</textarea>
                 </div>
-                <button type="submit" class="btn btn-primary float-left">Update</button>
             </form>
+            <button class="btn btn-primary float-left" onclick="goBack()">Back</button>
+            <button id="btnlock" class="btn btn-danger float-right" onclick="delete_staff('{{staff._id}}')">Delete
+                staff</button>
         </div>
     </div>
 </div>
+
+<script>
+    function delete_staff(id) {
+        const form = document.createElement("form");
+        form.method = "post";
+        form.action = "/staff/delete/" + id;
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function goBack() {
+        window.history.back();
+    }
+</script>

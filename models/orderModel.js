@@ -43,7 +43,7 @@ exports.orderDetail =async(id) =>{
     order = await orderCollection.findOne({_id: ObjectId(id)});
     detailCollection = await db().collection('ORDER_DETAIL');
     items = [];
-    detail = await detailCollection.find({"ORDER_ID": id}).toArray();
+    detail = await detailCollection.find({"ORDER_ID": ObjectId(id)}).toArray();
     for (i in detail) {
         temp ={
             item : await productModel.product(detail[i].DISH_ID),
