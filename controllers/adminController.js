@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const saltRounds=10;
 exports.detail = async(req, res, next)=>{
     const admin = req.user
-    console.log(admin);
     res.render('admin/admininformation', {admin});
 }
 
@@ -14,7 +13,7 @@ exports.update = async(req, res, next)=>{
 
 exports.changepw = async(req, res, next)=>{
     const {current_password, new_password, retype_password}=req.body;
-    console.log("abcd",req.body);
+   
     let errors = [];
     //Check valid
     if (new_password.length < 6) {
@@ -30,12 +29,10 @@ exports.changepw = async(req, res, next)=>{
     //Check Current password
     bcrypt.compare(current_password, req.user.PASSWORD, async (err, result) => {
         if (err) throw err;
-        console.log('OKe1');
         if (result) {
             //Update password
             bcrypt.hash(new_password, saltRounds, async (err, hash) => {
                 if (err) throw err;
-                console.log('OKe2');
                 await adminModel.changepw(req.user._id, hash);
                 res.redirect('/admin/detail');
             });

@@ -40,7 +40,6 @@ app.use(flash());
 app.use(function(req, res, next) {
   res.message = req.flash();
   res.locals.user = req.user;
-  console.log("res.locals day ne: ", res.locals.user);
   next();
 });
 
@@ -84,12 +83,6 @@ hbs.handlebars.registerHelper('cond', function(v1, v2, options) {
     return options.fn(this);
   }
 });
-// hbs.registerHelper('json', function(context) {
-//   return JSON.stringify(context);
-// });
 
-// const PORT = process.env.PORT || 3000;
-
-// app.listen(PORT, () => console.log(`Server ${PORT}`));
 
 module.exports = app;
