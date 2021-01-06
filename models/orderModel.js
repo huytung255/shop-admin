@@ -9,12 +9,13 @@ exports.orderList = async(page) => {
     allOrders= await orderCollection.find().limit(10).skip(10 * (page - 1)).toArray();
     for (i in allOrders) {
         customer = await customerModel.customer(allOrders[i].CUS_ID);
-        console.log('customer',allOrders[i].CUS_ID);
         staff = await staffModel.staff(allOrders[i].STAFF_ID);
+        staffName = staff ? staff.STAFF_NAME : null;
+        cusName = customer ? customer.CUS_NAME : null;
         temp = {
             order : allOrders[i],
-            creator : customer.CUS_NAME,
-            staff : staff.STAFF_NAME
+            creator : cusName,
+            staff : staffName
         }
         res.push(temp);
     }
@@ -27,10 +28,12 @@ exports.orderListByStatus = async(page,status) => {
     for (i in allOrdersByStatus) {
         customer = await customerModel.customer(allOrdersByStatus[i].CUS_ID);
         staff = await staffModel.staff(allOrdersByStatus[i].STAFF_ID);
+        staffName = staff ? staff.STAFF_NAME : null;
+        cusName = customer ? customer.CUS_NAME : null;
         temp = {
             order : allOrdersByStatus[i],
-            creator : customer.CUS_NAME,
-            staff : staff.STAFF_NAME
+            creator : cusName,
+            staff : staffName
         }
         res.push(temp);
     }
@@ -41,6 +44,7 @@ exports.orderListByStatus = async(page,status) => {
 exports.orderDetail =async(id) =>{
     orderCollection = await db().collection('ORDER');
     order = await orderCollection.findOne({_id: ObjectId(id)});
+
     detailCollection = await db().collection('ORDER_DETAIL');
     items = [];
     detail = await detailCollection.find({"ORDER_ID": ObjectId(id)}).toArray();
@@ -53,10 +57,11 @@ exports.orderDetail =async(id) =>{
     }
     customer = await customerModel.customer(order.CUS_ID);
     staff = await staffModel.staff(order.STAFF_ID);
+    staffName = staff ? staff.STAFF_NAME : null;
     res ={
         order : order,
         creator : customer,
-        staff : staff.STAFF_NAME,
+        staff : staffName,
         items : items
     }
     return res;

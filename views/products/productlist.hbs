@@ -30,6 +30,7 @@
                     <li><a class="dropdown-item" href="/products/type?type=pizza&page=1">pizza</a></li>
                     <li><a class="dropdown-item" href="/products/type?type=burger&page=1">burger</a></li>
                     <li><a class="dropdown-item" href="/products/type?type=spaghetti&page=1">spaghetti</a></li>
+                    <li><a class="dropdown-item" href="/products/type?type=rice&page=1">rice</a></li>
                     <li><a class="dropdown-item" href="/products/type?type=dessert&page=1">dessert</a></li>
                     <li><a class="dropdown-item" href="/products/type?type=drink&page=1">drink</a></li>
                 </ul>
@@ -45,6 +46,7 @@
                             <th class="text-center align-middle w-25 font-weight-bold bg-light">Loại</th>
                             <th class="text-center align-middle w-25 font-weight-bold bg-light">Giá</th>
                             <th class="text-center align-middle w-25 font-weight-bold bg-light">Trạng thái</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Lượt xem</th>
                             <th class="text-center align-middle w-25 font-weight-bold bg-light">Chỉnh sửa</th>
                         </tr>
                     </thead>
@@ -55,6 +57,7 @@
                             <th class="text-center align-middle w-25 font-weight-bold bg-light">Loại</th>
                             <th class="text-center align-middle w-25 font-weight-bold bg-light">Giá</th>
                             <th class="text-center align-middle w-25 font-weight-bold bg-light">Trạng thái</th>
+                            <th class="text-center align-middle w-25 font-weight-bold bg-light">Lượt xem</th>
                             <th class="text-center align-middle w-25 font-weight-bold bg-light">Chỉnh sửa</th>
                         </tr>
                     </tfoot>
@@ -74,6 +77,9 @@
                                 {{#unless STATUS}}
                                 <span class="text-danger font-weight-bold">Hết</span>
                                 {{/unless}}
+                            </td>
+                            <td class="text-center align-middle">
+                                {{VIEW}}
                             </td>
                             <td class="text-center align-middle">
                                 <a href="../products/detail?id={{_id}}">

@@ -22,6 +22,7 @@
                         <option {{#cond product.TYPE 'pizza' }} selected="selected" {{/cond}}>pizza</option>
                         <option {{#cond product.TYPE 'burger' }} selected="selected" {{/cond}}>burger</option>
                         <option {{#cond product.TYPE 'spaghetti' }} selected="selected" {{/cond}}>spaghetti</option>
+                        <option {{#cond product.TYPE 'rice' }} selected="selected" {{/cond}}>rice</option>
                         <option {{#cond product.TYPE 'dessert' }} selected="selected" {{/cond}}>dessert</option>
                         <option {{#cond product.TYPE 'drink' }} selected="selected" {{/cond}}>drink</option>
                     </select>
@@ -36,6 +37,10 @@
                         <option {{#cond product.STATUS 0}} selected="selected" {{/cond}} value='0'>Hết</option>
                         <option {{#cond product.STATUS 1}} selected="selected" {{/cond}} value='1'>Còn</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label for="basePrice">Lượt xem</label>
+                    <input type="number" class="form-control" id="basePrice" name="basePrice" value={{product.VIEW}} readonly>
                 </div>
                 <div class="form-group">
                     <label for="description">Mô tả</label>

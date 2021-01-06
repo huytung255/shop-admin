@@ -1,0 +1,33 @@
+<script src="https://unpkg.com/@mongodb-js/charts-embed-dom"></script>
+<div class="d-flex justify-content-center mt-3">
+    <div id="chart"></div>
+</div>
+<div class="d-flex justify-content-center mt-3">
+    <button id="refresh" class="btn btn-info mr-3">Refresh this chart</button>
+    <label>Show data from: <input type="date" class="form-control" id="data-from"></label>
+</div>
+
+<script>
+    const ChartsEmbedSDK = window.ChartsEmbedSDK;
+
+    const sdk = new ChartsEmbedSDK({
+        baseUrl: 'https://charts.mongodb.com/charts-shopping-cart-vofyo',
+    });
+    const chart = sdk.createChart({
+        chartId: 'de726369-7d90-4dfe-9c27-065881355213',
+        width: 1000,
+        height: 450,
+        theme: 'dark'
+    });
+    chart.render(document.getElementById('chart'));
+    document.getElementById('refresh').addEventListener('click', () => {
+        chart.refresh();
+    })
+    document.getElementById('data-from').addEventListener('change', e => {
+        const date = new Date(e.target.value);
+        console.log(date);
+        chart.setFilter({ DATECREATED: { $gte: date } });
+    })
+
+
+</script>

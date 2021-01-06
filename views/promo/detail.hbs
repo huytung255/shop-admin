@@ -1,0 +1,121 @@
+<div class="container-fluid">
+    <h1 class="mt-4">Chi tiết khuyến mãi</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Chi tiết khuyến mãi</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-plus mr-1"></i>
+            Chi tiết khuyến mãi
+        </div>
+        <div class="card-body">
+            <form id="editproductform" action="../promo/detail/edit?id={{promoDetail._id}}" method="POST"
+                enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">Tiêu đề</label>
+                    <input type="text" class="form-control" id="title" name="title" value='{{promoDetail.TITLE}}'>
+                </div>
+                <div class="form-group">
+                    <label for="content">Nội dung</label>
+                    <textarea class="form-control" id="content" rows="5"
+                        name="content">{{promoDetail.CONTENT}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="status">Trạng thái</label>
+                    <input type="text" class="form-control" id="status" name="status"
+                        value='{{#if promoDetail.ACTIVE}}Active{{/if}}{{#unless promoDetail.ACTIVE}}Inactive{{/unless}}'
+                        readonly>
+                </div>
+                <div class="form-group">
+                    <label>Hình ảnh</label><br>
+                    <img src="{{promoDetail.IMAGE}}" width="150" height="150">
+
+                    <div class="form-group d-flex flex-column w-50">
+                        <label for="multiplefile">Update images:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Upload</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputImage" name="coverimage"
+                                    value="{{promoDetail.IMAGE}}">
+                                <label class="custom-file-label" for="inputImage">Choose file</label>
+                            </div>
+                            <input name="cover" type="hidden">
+                            <input name="savedimage" value="{{promoDetail.IMAGE}}" type="hidden">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between px-5">
+                    <button type="submit"
+                        class="btn aqua-gradient btn-primary px-5 py-3 mx-5 border-0 text-uppercase font-weight-bold">Submit</button>
+                    {{#if promoDetail.ACTIVE}}
+                    <button type="button"
+                        class="btn red-gradient btn-primary px-5 py-3 mx-5 border-0 text-uppercase font-weight-bold"
+                        data-toggle="modal" data-target="#removeModal">Disable</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="removeModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Disable promo</h5>
+                                    <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
+                                        <span class="fa fa-times" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Do you really want to disable this promo?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <a class="btn btn-primary "
+                                        href="detail/toggle?id={{promoDetail._id}}&toggle=false">Yes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#unless promoDetail.ACTIVE}}
+                    <button type="button"
+                        class="btn red-gradient btn-primary px-5 py-3 mx-5 border-0 text-uppercase font-weight-bold"
+                        data-toggle="modal" data-target="#removeModal">Enable</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="removeModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Enable promo</h5>
+                                    <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
+                                        <span class="fa fa-times" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Do you really want to enable this promo?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <a class="btn btn-primary "
+                                        href="detail/toggle?id={{promoDetail._id}}&toggle=true">Yes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/unless}}
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $('#inputImage').on('change', function () {
+        //get the file name
+        var fileName = $(this).val();
+        var cleanFileName = fileName.replace('C:\\fakepath\\', " ");
+        //replace the "Choose a file" label
+        $(this).next('.custom-file-label').html(cleanFileName);
+    })
+</script>
