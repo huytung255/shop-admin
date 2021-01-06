@@ -1,24 +1,35 @@
 <div class="container-fluid">
     <h1 class="mt-4">Sửa món</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Sửa món</li>
+        <li class="breadcrumb-item active">
+            {{#cond user.type 'admin'}}
+            Sửa món
+            {{/cond}}
+            {{#cond user.type 'staff'}}
+            Cập nhật trạng thái
+            {{/cond}}
+        </li>
     </ol>
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-plus mr-1"></i>
+            {{#cond user.type 'admin'}}
             Sửa món
+            {{/cond}}
+            {{#cond user.type 'staff'}}
+            Cập nhật trạng thái
+            {{/cond}}
         </div>
         <div class="card-body">
             <form id="editproductform" action="../products/detail/edit?id={{product._id}}" method="POST">
                 <div class="form-group">
                     <label for="title">Tên món</label>
                     <input type="text" class="form-control" id="title" name="title" value={{product.DISH_NAME}}>
-
                 </div>
-
                 <div class="form-group">
                     <label for="category">Phân loại</label>
-                    <select class="form-control" id="category" name="category">
+                    <select class="form-control" id="category" name="category" {{#cond user.type 'staff'
+                        }}readonly{{/cond}}>
                         <option {{#cond product.TYPE 'pizza' }} selected="selected" {{/cond}}>pizza</option>
                         <option {{#cond product.TYPE 'burger' }} selected="selected" {{/cond}}>burger</option>
                         <option {{#cond product.TYPE 'spaghetti' }} selected="selected" {{/cond}}>spaghetti</option>
@@ -29,14 +40,17 @@
                 </div>
                 <div class="form-group">
                     <label for="basePrice">Giá</label>
-                    <input type="number" class="form-control" id="basePrice" name="basePrice" value={{product.PRICE}}>
+                    <input type="number" class="form-control" id="basePrice" name="basePrice" value={{product.PRICE}}
+                        {{#cond user.type 'staff' }}readonly{{/cond}}>
                 </div>
                 <div class="form-group">
                     <label for="basePrice">Trạng thái</label>
-                    <select class="form-control" id="status" name="status">
+                    <select class="form-control" id="status" name="status" {{#cond user.type 'staff'
+                        }}readonly{{/cond}}>
                         <option {{#cond product.STATUS 0}} selected="selected" {{/cond}} value='0'>Hết</option>
                         <option {{#cond product.STATUS 1}} selected="selected" {{/cond}} value='1'>Còn</option>
                     </select>
+
                 </div>
                 <div class="form-group">
                     <label for="basePrice">Lượt xem</label>
@@ -44,8 +58,8 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Mô tả</label>
-                    <textarea class="form-control" id="description" rows="3"
-                        name="description">{{product.DESCRIPTION}}</textarea>
+                    <textarea class="form-control" id="description" rows="3" name="description" {{#cond
+                        user.type 'staff' }}readonly{{/cond}}>{{product.DESCRIPTION}}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="description">Hình ảnh</label>
@@ -54,7 +68,7 @@
                         <img src="{{this}}" width="120" height="120">
                         {{/each}}
                     </div>
-
+                    {{#cond user.type "admin"}}
                     <div class="form-group d-flex flex-column">
                         <label for="multiplefile">Update images:</label>
                         <div>
@@ -62,8 +76,10 @@
                                 name="multiplefile"></button>
                         </div>
                     </div>
+                    {{/cond}}
                 </div>
             </form>
+            {{#cond user.type "admin"}}
             <div class="d-flex justify-content-center">
                 <button type="button"
                     class="btn aqua-gradient btn-primary px-5 py-3 mx-5 border-0 text-uppercase font-weight-bold"
@@ -93,11 +109,23 @@
                     </div>
                 </div>
             </div>
-
+            {{/cond}}
+            {{#cond user.type "staff"}}
+            <a href="/products/?page=1">
+                <button type="button"
+                    class="btn aqua-gradient btn-primary px-5 py-3 mx-5 border-0 text-uppercase font-weight-bold float-left"
+                    onclick="goBack()">Back</button>
+            </a>
+            <button type="button"
+                class="btn aqua-gradient btn-primary px-5 py-3 mx-5 border-0 text-uppercase font-weight-bold float-right"
+                onclick="updatestate('{{product._id}}','1')">Set Available</button>
+            <button type="button"
+                class="btn aqua-gradient btn-primary px-5 py-3 mx-5 border-0 text-uppercase font-weight-bold float-right"
+                onclick="updatestate('{{product._id}}','0')">Set unavailable</button>
+            {{/cond}}
         </div>
     </div>
 </div>
-
 <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
 <script type="text/javascript">
     let resultupload = ["{{product.IMAGES.[0]}}", "{{product.IMAGES.[1]}}", "{{product.IMAGES.[2]}}"];
@@ -121,6 +149,16 @@
             form.appendChild(urltemp);
             console.log("cai urltemp: ", urltemp);
         }
+        form.submit();
+    }
+    function goBack() {
+        window.history.back();
+    }
+    function updatestate(id, value) {
+        const form = document.createElement("form");
+        form.action = "/products/update/" + id + "/" + value;
+        form.method = "POST";
+        document.body.appendChild(form);
         form.submit();
     }
 </script>

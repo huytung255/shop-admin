@@ -12,6 +12,12 @@ module.exports = {
         next();
       }
     },
+    checkAuthenticated: function(req, res, next){
+      if(req.isAuthenticated()){
+        return next();
+      }
+      res.redirect("/login");
+    },
     checkAdminAuthenticated: function (req, res, next) {
       if (req.isAuthenticated() && req.user.type==="admin") {
         console.log("check admin: ", req.user.type);

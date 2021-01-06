@@ -15,6 +15,8 @@ router.use(express.static('public'));
 
 router.get('/detail/:id', checkStaffAuthenticated, staffcontroller.detail);
 router.post('/update/:id', checkStaffAuthenticated, staffcontroller.update);
+router.get('/changepassword', checkStaffAuthenticated, staffcontroller.GetChangePasswordPage);
+router.post('/changepassword', checkStaffAuthenticated, staffcontroller.changepw);
 
 router.get('/adminview', checkAdminAuthenticated, staffcontroller.stafflist);
 router.get('/adminview/detail/:id', checkAdminAuthenticated, staffcontroller.detailviewadmin);

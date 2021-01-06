@@ -8,12 +8,14 @@
             <i class="fas fa-table mr-1"></i>
             Product Table
         </div>
+        {{#cond user.type "admin"}}
         <div class="d-flex justify-content-center my-2">
             <a href="../products/addnew">
                 <button type="button" class="btn aqua-gradient btn-primary px-5 py-3 border-0 text-uppercase"><i
                         class="fas fa-plus mr-2"></i>Add new</button>
             </a>
         </div>
+        {{/cond}}
         <div class="d-flex justify-content-between mx-4">
             <form action="../products/search?page=1" method="GET" class="form-inline md-form">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
@@ -100,24 +102,3 @@
 
     </div>
 </div>
-<script>
-    function delete_product(title, type) {
-        const form = document.createElement("form");
-        form.method = "post";
-        form.action = "./delete";
-
-        const inputTitle = document.createElement("input");
-        inputTitle.name = "title";
-        inputTitle.value = title;
-        form.appendChild(inputTitle);
-
-        const inputType = document.createElement("input");
-        inputType.name = "type";
-        inputType.value = type;
-        form.appendChild(inputType);
-
-        document.body.appendChild(form);
-
-        form.submit();
-    }
-</script>

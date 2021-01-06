@@ -1,4 +1,6 @@
 const orderModel = require('../models/orderModel');
+const productModel = require('../models/productModel');
+const { all } = require('../routes/order');
 
 exports.orderList = async (req,res,next) => {
     const page = +req.query.page || 1;
@@ -19,5 +21,42 @@ exports.orderListByStatus = async (req,res,next) => {
 exports.orderDetail = async (req,res,next) => {
     id = req.query.id;
     order = await orderModel.orderDetail(id);
-    res.render('order/detail', {order});
+    if(req.user.type == "admin"){
+        res.render('order/detail', {order});}
+    else if(req.user.type == "staff"){
+        res.render('order/detail', {layout: 'layoutstaff', order});
+    }
+    
+}
+
+exports.orderHistory = async(req, res, next)=>{
+    const allorders = await orderModel.pendingorders();
+    await allorders.sort((a,b)=>{
+        if(a.DATECREATED > b.DATECREATED){
+            return 1;
+        }
+        if(a.DATECREATED < b.DATECREATED){
+            return -1;
+        }
+    });
+    res.render('order/orderliststaffview', {layout: 'layoutstaff', allorders: allorders});
+}
+exports.myconfirmorders = async(req, res, next)=>{
+    const allorders = await orderModel.myconfirmedorders(req.user._id);
+    await allorders.sort((a,b)=>{
+        if(a.DATECREATED > b.DATECREATED){
+            return -1;
+        }
+        if(a.DATECREATED < b.DATECREATED){
+            return 1;
+        }
+    });
+    res.render('order/orderliststaffview', {layout: 'layoutstaff', allorders: allorders});
+}
+exports.updateStateOrder = async (req, res, next) => {
+    const orderid = req.params.id;
+    const staffid = req.user._id;
+    const status = parseInt(req.params.value);
+    const state = await orderModel.updateState(orderid, staffid, status);
+    res.redirect('/order/staffview');
 }

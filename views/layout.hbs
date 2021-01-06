@@ -42,8 +42,8 @@
                     aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <div class="dropdown-item">Hello {{user.USERNAME}}</div>
-                    <a class="dropdown-item" href="/admin/detail">My Information</a>
-                    <a class="dropdown-item" href="#">Change Password</a>
+                    <a class="dropdown-item" href="/admin/detail">My Profile</a>
+                    <a class="dropdown-item" href="/admin/changepassword">Change Password</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/logout">Logout</a>
                 </div>
@@ -165,7 +165,7 @@
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    Start Bootstrap
+                    {{user.type}}
                 </div>
             </nav>
         </div>

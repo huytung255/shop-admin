@@ -4,9 +4,15 @@
         <li class="breadcrumb-item active">Chi tiết đơn</li>
     </ol>
     <button onclick="goBack()" type="button"
-        class="btn red-gradient btn-primary px-5 py-3 mb-3 border-0 text-uppercase font-weight-bold"><i
+        class="btn red-gradient btn-primary px-5 py-3 mb-3 border-0 text-uppercase font-weight-bold float-left"><i
             class="fa fa-chevron-left" aria-hidden="true"></i>
         Back</button>
+    <button onclick="ConfirmOrder('{{order.order._id}}','1')" type="button"
+        class="btn btn-primary px-5 py-3 mb-3 border-0 text-uppercase font-weight-bold float">
+        Confirm</button>
+    <button onclick="ConfirmOrder('{{order.order._id}}','-1')" type="button"
+        class="btn btn-danger px-5 py-3 mb-3 border-0 text-uppercase font-weight-bold float-right">
+        Cancel</button>
     <div class="card mb-4">
         <div class="card-header">
             Order detail
@@ -119,7 +125,16 @@
 </div>
 
 <script>
-function goBack() {
-  window.history.back();
-}
+    function goBack() {
+        window.history.back();
+    }
+    function ConfirmOrder(id, value) {
+        if({{order.order.STATUS}} == 0){
+            const form = document.createElement("form");
+            form.action = "/order/confirm/" + id + "/" + value;
+            form.method = "POST";
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
 </script>

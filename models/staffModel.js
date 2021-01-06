@@ -55,3 +55,13 @@ exports.update = async(req)=>{
      const collection = await db().collection('STAFF');
      const result = await collection.updateOne({}, updateDocument);
 }
+
+exports.changepw = async(id, password) =>{
+    const updateDocument = {
+        $set: {
+           PASSWORD: password
+        },
+     };
+     const collection = await db().collection('STAFF');
+     const result = await collection.updateOne({_id: ObjectId(id)}, updateDocument);
+}
