@@ -20,6 +20,7 @@ router.post('/changepassword', checkStaffAuthenticated, staffcontroller.changepw
 
 router.get('/adminview', checkAdminAuthenticated, staffcontroller.stafflist);
 router.get('/adminview/detail/:id', checkAdminAuthenticated, staffcontroller.detailviewadmin);
+router.get('/adminview/search',checkAdminAuthenticated, staffcontroller.search)
 router.get('/addstaff', checkAdminAuthenticated, staffcontroller.addstaff);
 router.post('/addstaff/create', checkAdminAuthenticated, staffcontroller.create);
 router.post('/delete/:id', checkAdminAuthenticated, staffcontroller.delete);

@@ -32,8 +32,32 @@
                     <textarea id="is_locked" class="form-control" rows="1" name="islock" readonly>{{customer.IS_LOCK}}</textarea>
                 </div>
             </form>
-            <button class="btn btn-primary float-left" onclick="goBack()">Back</button>
-            <button id="btnlock" class="btn btn-danger float-right" onclick="lock_user('{{customer._id}}')">Lock user</button>
+             <a href="/customer/?page=1">
+            <button class="btn btn-primary float-left">Back</button>
+            </a>
+            <button id="btnlock" class="btn btn-danger float-right" data-toggle="modal"
+                data-target="#removeModal">Lock user</button>
+            <!-- Modal -->
+            <div class="modal fade" id="removeModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Lock user</h5>
+                            <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
+                                <span class="fa fa-times" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Do you really want to lock this user?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button class="btn btn-primary " onclick="lock_user('{{customer._id}}')">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button id="btnunlock" class="btn btn-primary float-right" onclick="unlock_user('{{customer._id}}')">Unlock user</button>
         </div>
     </div>

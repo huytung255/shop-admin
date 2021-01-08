@@ -20,10 +20,10 @@ module.exports = {
     },
     checkAdminAuthenticated: function (req, res, next) {
       if (req.isAuthenticated() && req.user.type==="admin") {
-        console.log("check admin: ", req.user.type);
+        //console.log("check admin: ", req.user.type);
         return next();
       } else {
-        console.log("May khong phai admin!");
+        //console.log("May khong phai admin!");
         res.redirect("/login");
       }
     },
@@ -31,7 +31,7 @@ module.exports = {
       if(req.isAuthenticated() && req.user.type==="staff"){
         return next();
       } else {
-        console.log("May khong phai nhan vien!");
+        //console.log("May khong phai nhan vien!");
         res.redirect("/login");
       }
     }

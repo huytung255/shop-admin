@@ -11,21 +11,12 @@
             </a>
         </div> --}}
         <div class="d-flex mx-4 mt-3">
-            <form action="../products/search?page=1" method="GET" class="form-inline md-form mr-auto mb-4">
+            <form action="/customer/search?page=1" method="GET" class="form-inline md-form mr-auto mb-4">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
-                    name="searchedproduct">
+                    name="searchedcustomer">
                 <button class="btn aqua-gradient btn-primary border-0 text-uppercase" type="submit"><i
                         class="fa fa-search" aria-hidden="true"></i></button>
             </form>
-            {{!-- <div class="dropdown">
-                <button class="btn btn-primary aqua-gradient dropdown-toggle" type="button" data-toggle="dropdown">Find by category
-                    <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="/products/category?category=foods&page=1">foods</a></li>
-                    <li><a href="/products/category?category=drinks&page=1">drinks</a></li>
-                    <li><a href="/products/category?category=desserts&page=1">desserts</a></li>
-                </ul>
-            </div> --}}
         </div>
         <div class="card-body">
             <div class="table-responsive">

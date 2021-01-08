@@ -44,3 +44,16 @@ const updateDocument = {
 const collection = await db().collection('CUSTOMER');
 const result = await collection.updateOne(filter, updateDocument);
 }
+
+exports.search = async (page, name) => {
+    const customersCollection = await db().collection('CUSTOMER');
+    var customers = await customersCollection.find({ 'CUS_NAME': name }).limit(10).skip(10 * (page - 1)).toArray();
+    return customers;
+}
+
+exports.countByTitle = async (name) => {
+    collection = await db().collection('CUSTOMER');
+    customers_by_name = await collection.find({ 'CUS_NAME': name }).toArray();
+    count = customers_by_name.length;
+    return count;
+}

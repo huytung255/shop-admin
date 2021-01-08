@@ -28,3 +28,13 @@ exports.unlock = async(req, res, next)=>{
     await customerModel.unlock(customerID);
     res.redirect('/customer/detail/'+customerID);
 }
+
+exports.search = async (req, res, next) => {
+
+    const page = +req.query.page || 1;
+    const title = req.query.searchedcustomer;
+    const customers = await customerModel.search(page, title);
+    const count = await customerModel.countByTitle(title);
+    res.render('customer/customerlist', { pagination: { page: parseInt(page), limit: 10, totalRows: count, queryParams: { searchedcustomer: title } }, customers });
+
+}

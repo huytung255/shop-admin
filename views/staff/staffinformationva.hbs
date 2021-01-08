@@ -33,8 +33,30 @@
                 </div>
             </form>
             <button class="btn btn-primary float-left" onclick="goBack()">Back</button>
-            <button id="btnlock" class="btn btn-danger float-right" onclick="delete_staff('{{staff._id}}')">Delete
+            <button id="btnlock" class="btn btn-danger float-right" data-toggle="modal"
+                data-target="#removeModal">Delete
                 staff</button>
+            <!-- Modal -->
+            <div class="modal fade" id="removeModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Delete staff</h5>
+                            <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
+                                <span class="fa fa-times" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Do you really want to delete this staff?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button class="btn btn-primary " onclick="delete_staff('{{staff._id}}')">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

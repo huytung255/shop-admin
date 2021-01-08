@@ -1,19 +1,22 @@
 <div class="container-fluid">
-    <h1 class="mt-4">Thêm món</h1>
+    <h1 class="mt-4">Thêm Nhân viên</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Thêm món</li>
+        <li class="breadcrumb-item active">Thêm nhân viên</li>
     </ol>
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-plus mr-1"></i>
-            Thêm món
+            Thêm nhân viên
         </div>
         <div class="card-body">
+            {{#if errors}}
+            {{#each errors}}
+            <div class="alert alert-dismissible alert-danger animate__animated animate__shakeY">
+                <p class="d-flex justify-content-center">{{this}}</p>
+            </div>
+            {{/each}}
+            {{/if}}
             <form id="addstaffform" action="/staff/addstaff/create" method="POST">
-                <div class="form-group">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id">   
-                </div>
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" class="form-control"  name="name">
@@ -25,6 +28,14 @@
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="retype-password">Retype password</label>
+                    <input type="password" class="form-control" name="retype_password">
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone</label>

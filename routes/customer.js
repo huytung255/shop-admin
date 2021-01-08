@@ -9,5 +9,6 @@ router.get('/', checkAdminAuthenticated, customercontroller.customerlist);
 router.get('/detail/:id', checkAdminAuthenticated, customercontroller.detail);
 router.post('/lock/:id', checkAdminAuthenticated, customercontroller.lock);
 router.post('/unlock/:id', checkAdminAuthenticated, customercontroller.unlock);
+router.get('/search', checkAdminAuthenticated, customercontroller.search);
 
 module.exports = router;

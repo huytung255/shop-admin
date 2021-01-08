@@ -11,9 +11,30 @@
     <button onclick="ConfirmOrder('{{order.order._id}}','1')" type="button"
         class="btn btn-primary px-5 py-3 mb-3 border-0 text-uppercase font-weight-bold">
         Confirm</button>
-    <button onclick="ConfirmOrder('{{order.order._id}}','-1')" type="button"
-        class="btn btn-danger px-5 py-3 mb-3 border-0 text-uppercase font-weight-bold float-right">
+    <button type="button" class="btn btn-danger px-5 py-3 mb-3 border-0 text-uppercase font-weight-bold float-right"
+        data-toggle="modal" data-target="#removeModal">
         Cancel</button>
+    <!-- Modal -->
+    <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Cancel order</h5>
+                    <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
+                        <span class="fa fa-times" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Do you really want to cancel this order?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button class="btn btn-primary " onclick="ConfirmOrder('{{order.order._id}}','-1')">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     {{/cond}}
     <div class="card mb-4">
         <div class="card-header">
@@ -131,12 +152,12 @@
         window.history.back();
     }
     function ConfirmOrder(id, value) {
-        if({{order.order.STATUS}} == 0){
-            const form = document.createElement("form");
-            form.action = "/order/confirm/" + id + "/" + value;
-            form.method = "POST";
-            document.body.appendChild(form);
-            form.submit();
-        }
+        if ({{ order.order.STATUS }} == 0) {
+        const form = document.createElement("form");
+        form.action = "/order/confirm/" + id + "/" + value;
+        form.method = "POST";
+        document.body.appendChild(form);
+        form.submit();
+    }
     }
 </script>

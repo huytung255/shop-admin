@@ -19,8 +19,34 @@ exports.detailviewadmin = async(req, res, next)=>{
 }
 
 exports.create = async (req, res, next)=>{
-    staffModel.create(req);
-    res.redirect('/staff?page=1');
+    const {email, password, retype_password}=req.body;
+    let errors = [];
+    //Check valid
+    if(email=="" || password==""){
+        errors.push('Email and password are necessary fields!')
+    }
+    else if (password.length < 6) {
+        errors.push('Password is at least 6 characters.');
+    }
+    else if (password != retype_password) {
+        errors.push('Password is not match together')
+    }
+    //check email exist
+    const checkemail = await staffModel.findOne({STAFF_EMAIL:email});
+    if(checkemail){
+        errors.push('Email is already exist!');
+    }
+    if (errors.length > 0) {
+        res.render('staff/addstaff', {errors: errors });
+        return;
+    }
+
+    bcrypt.hash(password, saltRounds, async (err, hash) => {
+        if (err) throw err;
+        req.body.password=hash
+        await staffModel.create(req);
+        res.redirect('/staff/adminview?page=1');
+    });
 }
 
 exports.addstaff = async (req, res, next)=>{
@@ -33,7 +59,7 @@ exports.delete = async (req, res, next)=>{
     const result = await staffModel.deleteOne(query);
     if (result === 1) {
     console.dir("Successfully deleted one document.");
-    res.redirect('/staff?page=1');
+    res.redirect('/staff/adminview?page=1');
     } else {
             console.log("No documents matched the query. Deleted 0 documents.");
             }       
@@ -47,7 +73,7 @@ exports.detail = async(req, res, next)=>{
 
 exports.update = async(req, res, next)=>{
     const staff = await staffModel.update(req);
-    res.redirect('/staff/detail/:'+req.user._id);
+    res.redirect('/staff/detail/'+req.user._id);
 }
 
 
@@ -89,4 +115,14 @@ exports.changepw = async(req, res, next)=>{
 
 exports.GetChangePasswordPage = async(req, res, next)=>{
     res.render('staff/changepassword', {layout: 'layoutstaff'});
+}
+
+exports.search = async (req, res, next) => {
+
+    const page = +req.query.page || 1;
+    const title = req.query.searchedstaff;
+    const staffs = await staffModel.search(page, title);
+    const count = await staffModel.countByTitle(title);
+    res.render('staff/stafflist', { pagination: { page: parseInt(page), limit: 10, totalRows: count, queryParams: { searchedstaff: title } }, staffs });
+
 }
